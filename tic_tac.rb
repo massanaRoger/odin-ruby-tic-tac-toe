@@ -28,6 +28,8 @@ class Game
         unless %w[X O].include?(move)
           puts 'You have to input X or O, try again'
           correct = false
+        else
+          update_array(row, column, move)  
         end
       end
     end
@@ -40,6 +42,16 @@ class Game
     puts "|#{@game_array[3]}|#{@game_array[4]}|#{@game_array[5]}|"
     puts "|#{@game_array[6]}|#{@game_array[7]}|#{@game_array[8]}|"
   end
+  
+  def update_array(row, col, input)
+    pos_to_update = row * 3 + col
+    if @game_array[pos_to_update] == '%'
+      @game_array[pos_to_update] = input
+      return true
+    end
+    puts "Please select an empty position, try again"
+    return false
+  end
 end
 
 class Player
@@ -51,4 +63,5 @@ end
 player1 = Player.new('Roger')
 player2 = Player.new('XD')
 game = Game.new(player1, player2)
+game.play_round
 game.play_round
