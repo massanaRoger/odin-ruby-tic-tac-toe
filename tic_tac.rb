@@ -15,6 +15,8 @@ class Game
       end_game = play_round(player)
       player_index = 1 - player_index
     end
+    player.add_point
+    player.name
   end
 
   def play_round(player)
@@ -78,15 +80,33 @@ class Game
 end
 
 class Player
-  attr_reader :name, :move
+  attr_reader :name, :move, :points
 
   def initialize(name, move)
     @name = name
     @move = move
+    @points = 0
+  end
+
+  def add_point
+    @points += 1
   end
 end
 
-player1 = Player.new('Roger', 'X')
-player2 = Player.new('XD', 'O')
-game = Game.new(player1, player2)
-game.play_game
+def play
+  puts "What's player 1 name?"
+  player1_name = gets.chomp
+  puts "What's player 2 name?"
+  player2_name = gets.chomp
+  player1 = Player.new(player1_name, 'X')
+  player2 = Player.new(player2_name, 'O')
+  loop do
+    game = Game.new(player1, player2)
+    winner = game.play_game
+    puts "The winner is #{winner}"
+    puts "Player 1 points: #{player1.name} = #{player1.points}"
+    puts "Player 2 points: #{player2.name} = #{player2.points}"
+  end
+end
+
+play
