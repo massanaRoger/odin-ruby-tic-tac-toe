@@ -10,6 +10,27 @@ class Game
 
   def play_round
     print_screen
+    correct = false
+    until correct
+      correct = true
+      puts 'Introduce the row and column to change'
+      puts 'Row:'
+      row = gets.chomp.to_i + 1
+      puts 'Column:'
+      column = gets.chomp.to_i + 1
+      puts "#{row}, #{column}"
+      if row > 3 || column > 3
+        puts "Column / row can't be more than 3, try again"
+        correct = false
+      else
+        puts 'Want to play X or O?'
+        move = gets.chomp.upcase
+        unless %w[X O].include?(move)
+          puts 'You have to input X or O, try again'
+          correct = false
+        end
+      end
+    end
   end
 
   private
