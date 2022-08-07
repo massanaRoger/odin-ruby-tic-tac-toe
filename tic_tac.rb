@@ -13,10 +13,18 @@ class Game
     until end_game
       player = player_index.zero? ? @player1 : @player2
       end_game = play_round(player)
+      return nil if board_full?
+
       player_index = 1 - player_index
     end
     player.add_point
     player.name
+  end
+
+  private
+
+  def board_full?
+    @game_array.filter { |cell| cell == '%' }.length.zero?
   end
 
   def play_round(player)
@@ -40,8 +48,6 @@ class Game
     end
   end
 
-  private
-
   def print_screen
     puts "|#{@game_array[0]}|#{@game_array[1]}|#{@game_array[2]}|"
     puts "|#{@game_array[3]}|#{@game_array[4]}|#{@game_array[5]}|"
@@ -62,19 +68,16 @@ class Game
     pos = row * 3 + col
     pos_y = row * 3
     if @game_array[pos] == input && @game_array[(pos + 3) % 9] == input && @game_array[(pos + 3) % 9] == input
-      puts 'You won!'
       return true
     elsif @game_array[pos_y + col] == input && @game_array[pos_y + ((col + 1) % 3)] == input &&
           @game_array[pos_y + ((col + 2)) % 3] == input
-      puts 'You won!'
       return true
     elsif @game_array[0] == input && @game_array[4] == input && @game_array[8] == input
-      puts 'You won!'
       return true
     elsif @game_array[2] == input && @game_array[4] == input && @game_array[6] == input
-      puts 'You won!'
       return true
     end
+
     false
   end
 end
@@ -103,9 +106,12 @@ def play
   loop do
     game = Game.new(player1, player2)
     winner = game.play_game
-    puts "The winner is #{winner}"
-    puts "Player 1 points: #{player1.name} = #{player1.points}"
-    puts "Player 2 points: #{player2.name} = #{player2.points}"
+    if winner.nil?
+      puts 'It is a tie!'
+    elsif puts "The winner is #{winner}"
+      puts "Player 1 points: #{player1.name} = #{player1.points}"
+      puts "Player 2 points: #{player2.name} = #{player2.points}"
+    end
   end
 end
 
