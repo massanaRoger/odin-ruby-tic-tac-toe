@@ -4,11 +4,20 @@ class Game
   def initialize(player1, player2)
     @player1 = player1
     @player2 = player2
-    @end = false
     @game_array = Array.new(9, '%')
   end
 
-  def play_round
+  def play_game
+    end_game = false
+    player_index = 0
+    until end_game
+      player = player_index.zero? ? @player1 : @player2
+      end_game = play_round(player)
+      player_index = 1 - player_index
+    end
+  end
+
+  def play_round(player)
     print_screen
     correct = false
     until correct
@@ -18,20 +27,13 @@ class Game
       row = gets.chomp.to_i - 1
       puts 'Column:'
       column = gets.chomp.to_i - 1
-      puts "#{row}, #{column}"
       if row > 3 || column > 3
         puts "Column / row can't be more than 3, try again"
         correct = false
       else
-        puts 'Want to play X or O?'
-        move = gets.chomp.upcase
-        if %w[X O].include?(move)
-          correct = update_array(row, column, move)
-          winner?(row, column, move)
-        else
-          puts 'You have to input X or O, try again'
-          correct = false
-        end
+        move = player.move
+        correct = update_array(row, column, move)
+        return winner?(row, column, move) if correct
       end
     end
   end
@@ -76,15 +78,15 @@ class Game
 end
 
 class Player
-  def initialize(name)
+  attr_reader :name, :move
+
+  def initialize(name, move)
     @name = name
+    @move = move
   end
 end
 
-player1 = Player.new('Roger')
-player2 = Player.new('XD')
+player1 = Player.new('Roger', 'X')
+player2 = Player.new('XD', 'O')
 game = Game.new(player1, player2)
-game.play_round
-game.play_round
-game.play_round
-game.play_round
+game.play_game
