@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Game
+  attr_accessor :game_array
   def initialize(player1, player2)
     @player1 = player1
     @player2 = player2
@@ -19,6 +20,23 @@ class Game
     end
     player.add_point
     player.name
+  end
+
+  def winner?(row, col, input)
+    pos = row * 3 + col
+    pos_y = row * 3
+    if @game_array[pos] == input && @game_array[(pos + 3) % 9] == input && @game_array[(pos + 3) % 9] == input
+      return true
+    elsif @game_array[pos_y + col] == input && @game_array[pos_y + ((col + 1) % 3)] == input &&
+          @game_array[pos_y + ((col + 2)) % 3] == input
+      return true
+    elsif @game_array[0] == input && @game_array[4] == input && @game_array[8] == input
+      return true
+    elsif @game_array[2] == input && @game_array[4] == input && @game_array[6] == input
+      return true
+    end
+
+    false
   end
 
   private
@@ -64,22 +82,6 @@ class Game
     false
   end
 
-  def winner?(row, col, input)
-    pos = row * 3 + col
-    pos_y = row * 3
-    if @game_array[pos] == input && @game_array[(pos + 3) % 9] == input && @game_array[(pos + 3) % 9] == input
-      return true
-    elsif @game_array[pos_y + col] == input && @game_array[pos_y + ((col + 1) % 3)] == input &&
-          @game_array[pos_y + ((col + 2)) % 3] == input
-      return true
-    elsif @game_array[0] == input && @game_array[4] == input && @game_array[8] == input
-      return true
-    elsif @game_array[2] == input && @game_array[4] == input && @game_array[6] == input
-      return true
-    end
-
-    false
-  end
 end
 
 class Player
@@ -114,5 +116,3 @@ def play
     end
   end
 end
-
-play
