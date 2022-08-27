@@ -39,6 +39,16 @@ class Game
     false
   end
 
+  def update_array(row, col, input)
+    pos_to_update = row * 3 + col
+    if @game_array[pos_to_update] == '%'
+      @game_array[pos_to_update] = input
+      return true
+    end
+    puts 'Please select an empty position, try again'
+    false
+  end
+
   private
 
   def board_full?
@@ -70,16 +80,6 @@ class Game
     puts "|#{@game_array[0]}|#{@game_array[1]}|#{@game_array[2]}|"
     puts "|#{@game_array[3]}|#{@game_array[4]}|#{@game_array[5]}|"
     puts "|#{@game_array[6]}|#{@game_array[7]}|#{@game_array[8]}|"
-  end
-
-  def update_array(row, col, input)
-    pos_to_update = row * 3 + col
-    if @game_array[pos_to_update] == '%'
-      @game_array[pos_to_update] = input
-      return true
-    end
-    puts 'Please select an empty position, try again'
-    false
   end
 
 end

@@ -56,4 +56,21 @@ describe Game do
       end
     end
   end
+
+  describe '#update_array' do
+    let(:player1) { Player.new('Roger', 'X') }
+    let(:player2) { Player.new('Massana', 'O') }
+    subject(:game) { Game.new(player1, player2) }
+
+    it 'is %' do
+      game.update_array(0, 0, 'X')
+      expect(game.game_array[0]).to eq('X')
+    end
+
+    it 'is not %' do
+      game.game_array[0] = 'X'
+      game.update_array(0, 0, 'Y')
+      expect(game.game_array[0]).to eq('X')
+    end
+  end
 end
